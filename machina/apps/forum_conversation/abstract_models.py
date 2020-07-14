@@ -19,6 +19,11 @@ from machina.models.fields import MarkupTextField
 
 ApprovedManager = get_class('forum_conversation.managers', 'ApprovedManager')
 
+POSTS_ORDER_BY = (
+    "created"
+    if machina_settings.MACHINA_POSTS_ORDER_ASC
+    else "-created"
+)
 
 @python_2_unicode_compatible
 class AbstractTopic(DatedModel):
@@ -247,7 +252,7 @@ class AbstractPost(DatedModel):
     class Meta:
         abstract = True
         app_label = 'forum_conversation'
-        ordering = ['created', ]
+        ordering = [POSTS_ORDER_BY, ]
         get_latest_by = 'created'
         verbose_name = _('Post')
         verbose_name_plural = _('Posts')
